@@ -17,11 +17,13 @@ Future<void> pumpScreen(
       child: const MaterialApp(home: TransactionsScreen()),
     ),
   );
+  // The stub answers instantly, so the spinner doesn't make this hang
   await tester.pumpAndSettle();
 }
 
 void main() {
   testWidgets('shows a spinner while loading', (tester) async {
+    // No load() here, so it stays on the spinner
     final vm = TransactionsViewModel(StubTransactionRepository());
     await tester.pumpWidget(
       ChangeNotifierProvider.value(

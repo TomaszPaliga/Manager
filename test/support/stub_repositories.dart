@@ -6,6 +6,7 @@ import 'package:manager/domain/models/app_user.dart';
 import 'package:manager/domain/models/budget.dart';
 import 'package:manager/domain/models/transaction.dart';
 
+// Test data, override only what a test cares about
 Transaction sampleTransaction({
   String id = 'coffee',
   String title = 'Coffee',
@@ -33,8 +34,8 @@ final paycheck = sampleTransaction(
   date: DateTime(2026, 10, 10),
 );
 
-/// Answers immediately, so tests need no real delays. Set [failFetch] or
-/// [failSave] to walk the failure paths.
+// Answers instantly so tests don't have to wait, flip failFetch or failSave
+// to test the failure paths
 class StubTransactionRepository implements TransactionRepository {
   StubTransactionRepository({
     List<Transaction> initial = const [],
@@ -99,6 +100,7 @@ class StubBudgetRepository implements BudgetRepository {
   }
 }
 
+// Password 'correct' works, anything else is wrong credentials
 class StubAuthRepository implements AuthRepository {
   StubAuthRepository({this.failNetwork = false});
 

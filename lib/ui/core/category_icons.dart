@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../domain/models/transaction.dart';
 
+// Icons live here and not in the enum so domain doesn't depend on Flutter
 extension CategoryIcon on TransactionCategory {
   IconData get icon => switch (this) {
     TransactionCategory.salary => Icons.attach_money,

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../../data/repositories/budget_repository.dart';
 import '../../domain/models/budget.dart';
 
+// Same idea as TransactionsState
 sealed class BudgetsState {
   const BudgetsState();
 }
@@ -23,6 +24,7 @@ final class BudgetsError extends BudgetsState {
   final String message;
 }
 
+// Only loads the limits, the spent amounts come from TransactionsViewModel
 class BudgetsViewModel extends ChangeNotifier {
   BudgetsViewModel(this._repository);
 

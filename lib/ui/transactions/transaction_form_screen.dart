@@ -6,7 +6,7 @@ import '../core/formatters.dart';
 import 'transaction_validators.dart';
 import 'transactions_view_model.dart';
 
-/// Creates a transaction, or edits one when [transactionId] is given.
+// Same screen for adding and editing, transactionId is null when adding
 class TransactionFormScreen extends StatefulWidget {
   const TransactionFormScreen({super.key, this.transactionId});
 
@@ -28,6 +28,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
   final _amountController = TextEditingController();
   final _noteController = TextEditingController();
 
+  // Local form state, setState is fine because it's not app data
   Transaction? _existing;
   TransactionType _type = TransactionType.expense;
   TransactionCategory _category = TransactionCategory.other;
@@ -41,6 +42,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
     if (id == null) {
       return;
     }
+    // Editing, so fill in the form with the current values
     final existing = context.read<TransactionsViewModel>().transactionById(id);
     if (existing != null) {
       _existing = existing;
@@ -77,6 +79,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+    // Same as in details, get these before the await
     final vm = context.read<TransactionsViewModel>();
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
@@ -84,6 +87,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
     final existing = _existing;
     final note = _noteController.text.trim();
     final transaction = Transaction(
+      // Empty id for a new one, the repository sets it
       id: existing?.id ?? '',
       title: _titleController.text.trim(),
       amount: parseAmount(_amountController.text)!,
@@ -97,6 +101,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
     final saved = existing == null
         ? await vm.add(transaction)
         : await vm.update(transaction);
+    // The user could have left the screen while this was saving
     if (!mounted) {
       return;
     }

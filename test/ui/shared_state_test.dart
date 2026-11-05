@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../support/stub_repositories.dart';
 
 void main() {
+  // This is the shared state requirement from the lab
   testWidgets('a new transaction updates the dashboard balance', (
     tester,
   ) async {

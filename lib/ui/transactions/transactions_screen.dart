@@ -18,6 +18,7 @@ class TransactionsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Transactions')),
+      // No add button while loading or on the error screen
       floatingActionButton: vm.state is TransactionsLoaded
           ? FloatingActionButton(
               tooltip: 'Add transaction',
@@ -33,6 +34,7 @@ class TransactionsScreen extends StatelessWidget {
           message: message,
           onRetry: vm.load,
         ),
+        // Order matters, the empty check has to come before the normal list
         TransactionsLoaded(:final transactions) when transactions.isEmpty =>
           const EmptyView(message: 'No transactions yet. Tap + to add one.'),
         TransactionsLoaded(:final transactions) => RefreshIndicator(
@@ -43,6 +45,7 @@ class TransactionsScreen extends StatelessWidget {
               final transaction = transactions[index];
               return TransactionTile(
                 transaction: transaction,
+                // Only the id, details reads the rest from the view model
                 onTap: () {
                   Navigator.of(
                     context,

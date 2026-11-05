@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Shown when a list has nothing in it
 class EmptyView extends StatelessWidget {
   const EmptyView({
     super.key,

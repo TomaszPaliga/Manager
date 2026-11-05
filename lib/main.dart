@@ -12,11 +12,13 @@ import 'ui/auth/auth_view_model.dart';
 import 'ui/budgets/budgets_view_model.dart';
 import 'ui/transactions/transactions_view_model.dart';
 
-/// Composition root: the only file that knows the concrete repositories.
+// The only file that knows about the fake repositories
+// For Lab 3 we just swap them here for the real ones
 void main() {
   runApp(
     MultiProvider(
       providers: [
+        // Repositories go first, the view models below read them
         Provider<AuthRepository>(
           create: (_) => FakeAuthRepository(failureRate: 0.1),
         ),
@@ -29,6 +31,7 @@ void main() {
         ChangeNotifierProvider(
           create: (context) => AuthViewModel(context.read<AuthRepository>()),
         ),
+        // load() starts here when the view model is created, never in build
         ChangeNotifierProvider(
           create: (context) =>
               TransactionsViewModel(context.read<TransactionRepository>())

@@ -20,6 +20,7 @@ void main() {
 
   group('validateAmount()', () {
     test('rejects text, negatives, zero and too many decimals', () {
+      // reason prints the value that failed
       for (final value in ['', 'abc', '-5', '0', '0.00', '1.234', '1e3']) {
         expect(validateAmount(value), isNotNull, reason: value);
       }

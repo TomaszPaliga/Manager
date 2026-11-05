@@ -6,6 +6,7 @@ import 'package:manager/ui/budgets/budgets_view_model.dart';
 import 'support/stub_repositories.dart';
 
 void main() {
+  // Only the limits, spending is covered in the transactions tests
   test('load() ends in the loaded state', () async {
     const budget = Budget(
       id: 'b',

@@ -30,6 +30,7 @@ void main() {
     expect((state as AuthError).message, 'Wrong username or password.');
   });
 
+  // Different message from wrong credentials
   test('login() reports a network failure separately', () async {
     final vm = AuthViewModel(StubAuthRepository(failNetwork: true));
 

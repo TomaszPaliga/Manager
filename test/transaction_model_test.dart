@@ -14,6 +14,7 @@ void main() {
     expect(original.amount, 10);
   });
 
+  // The other tests rely on this when comparing lists
   test('transactions with the same fields are equal', () {
     expect(sampleTransaction(), sampleTransaction());
     expect(sampleTransaction().hashCode, sampleTransaction().hashCode);

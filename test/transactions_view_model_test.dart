@@ -5,6 +5,7 @@ import 'package:manager/ui/transactions/transactions_view_model.dart';
 import 'support/stub_repositories.dart';
 
 void main() {
+  // Failure paths use failFetch or failSave on the stub
   group('load()', () {
     test('ends in the loaded state, newest first', () async {
       final vm = TransactionsViewModel(
@@ -150,6 +151,7 @@ void main() {
     });
   });
 
+  // Happens when a screen closes during a request
   test('a late result after dispose() does not throw', () async {
     final vm = TransactionsViewModel(
       StubTransactionRepository(initial: [paycheck]),

@@ -4,7 +4,6 @@ import 'budgets/budgets_screen.dart';
 import 'dashboard/dashboard_screen.dart';
 import 'transactions/transactions_screen.dart';
 
-/// The bottom navigation shown after logging in.
 class HomeShell extends StatefulWidget {
   const HomeShell({super.key});
 
@@ -13,11 +12,13 @@ class HomeShell extends StatefulWidget {
 }
 
 class _HomeShellState extends State<HomeShell> {
+  // Just which tab is open, so plain setState is fine here
   int _index = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // IndexedStack keeps the tabs alive, so the scroll position isn't lost
       body: IndexedStack(
         index: _index,
         children: const [

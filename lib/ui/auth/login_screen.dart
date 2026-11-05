@@ -22,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  // validate() runs the validators on both fields
   void _submit() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthViewModel>().login(
@@ -70,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   TextFormField(
                     controller: _passwordController,
                     decoration: const InputDecoration(labelText: 'Password'),
-                    obscureText: true,
+                    obscureText: true, // Hides the password
                     onFieldSubmitted: (_) => _submit(),
                     validator: (value) {
                       final isEmpty = value == null || value.isEmpty;
@@ -78,6 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                   const SizedBox(height: 24),
+                  // Only there after a failed login
                   if (state case AuthError(:final message))
                     Padding(
                       padding: const EdgeInsets.only(bottom: 16),
@@ -90,6 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   FilledButton(
+                    // null disables the button so you can't log in twice
                     onPressed: inProgress ? null : _submit,
                     child: inProgress
                         ? const SizedBox.square(

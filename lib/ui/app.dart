@@ -12,7 +12,7 @@ class ManagerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Manager',
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false, // Removes the debug banner
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromARGB(255, 0, 255, 42),
@@ -23,7 +23,7 @@ class ManagerApp extends StatelessWidget {
   }
 }
 
-/// Shows the app to a logged-in user and the login screen to everyone else.
+// Login screen or the app, depending on whether someone is logged in
 class _AuthGate extends StatelessWidget {
   const _AuthGate();
 

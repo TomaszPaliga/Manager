@@ -4,6 +4,7 @@ import '../../../domain/models/transaction.dart';
 import '../category_icons.dart';
 import '../formatters.dart';
 
+// One row, used on the dashboard and on the transactions list
 class TransactionTile extends StatelessWidget {
   const TransactionTile({super.key, required this.transaction, this.onTap});
 

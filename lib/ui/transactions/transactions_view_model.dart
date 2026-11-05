@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../../data/repositories/transaction_repository.dart';
 import '../../domain/models/transaction.dart';
 
+// Always exactly one of these, the screens switch on it
 sealed class TransactionsState {
   const TransactionsState();
 }
@@ -23,9 +24,8 @@ final class TransactionsError extends TransactionsState {
   final String message;
 }
 
-/// The single source of truth for transactions. The dashboard, the list, the
-/// details, the form and the budgets all read this one instance, so a change
-/// made on one screen is visible on the others.
+// One instance for the whole app. Dashboard, list, details, form and budgets
+// all read from it, that's why a change on one screen shows up on the others
 class TransactionsViewModel extends ChangeNotifier {
   TransactionsViewModel(this._repository);
 
@@ -36,7 +36,7 @@ class TransactionsViewModel extends ChangeNotifier {
 
   TransactionsState get state => _state;
 
-  /// Newest first. Empty until the data has loaded.
+  // Newest first, empty until the data has loaded
   List<Transaction> get transactions {
     final current = _state;
     return current is TransactionsLoaded
@@ -63,7 +63,7 @@ class TransactionsViewModel extends ChangeNotifier {
     return null;
   }
 
-  /// Total of the expenses in [category].
+  // For the budgets screen, only counts expenses
   double spentIn(TransactionCategory category) {
     return transactions
         .where(
@@ -82,7 +82,7 @@ class TransactionsViewModel extends ChangeNotifier {
     }
   }
 
-  /// Returns false when saving failed. The list is then left unchanged.
+  // add and update return false if saving failed, the form shows a SnackBar
   Future<bool> add(Transaction transaction) async {
     try {
       final saved = await _repository.addTransaction(transaction);
@@ -93,7 +93,6 @@ class TransactionsViewModel extends ChangeNotifier {
     }
   }
 
-  /// Returns false when saving failed. The list is then left unchanged.
   Future<bool> update(Transaction transaction) async {
     try {
       final saved = await _repository.updateTransaction(transaction);
@@ -109,8 +108,8 @@ class TransactionsViewModel extends ChangeNotifier {
     }
   }
 
-  /// Removes the transaction at once and puts it back if deleting fails.
-  /// Returns false in that case.
+  // Removes it right away so the UI feels instant, puts it back if the
+  // request fails
   Future<bool> delete(String id) async {
     final removed = transactionById(id);
     if (removed == null) {
@@ -132,6 +131,7 @@ class TransactionsViewModel extends ChangeNotifier {
         .fold<double>(0, (sum, t) => sum + t.amount);
   }
 
+  // Always a new list, never change the old one in place
   void _changeList(List<Transaction> Function(List<Transaction>) change) {
     final current = _state;
     if (current is TransactionsLoaded) {
@@ -148,6 +148,7 @@ class TransactionsViewModel extends ChangeNotifier {
 
   void _setState(TransactionsState state) {
     _state = state;
+    // The screen can be gone by the time a request finishes
     if (!_disposed) {
       notifyListeners();
     }

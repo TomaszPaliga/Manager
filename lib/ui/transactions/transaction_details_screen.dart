@@ -10,8 +10,8 @@ import '../core/widgets/loading_view.dart';
 import 'transaction_form_screen.dart';
 import 'transactions_view_model.dart';
 
-/// Receives only the id and reads the transaction from the shared view model,
-/// so an edit made in the form shows up here at once.
+// Gets only the id and reads the transaction from the view model, so after
+// an edit this screen is already up to date
 class TransactionDetailsScreen extends StatelessWidget {
   const TransactionDetailsScreen({super.key, required this.transactionId});
 
@@ -24,6 +24,7 @@ class TransactionDetailsScreen extends StatelessWidget {
   }
 
   Future<void> _confirmDelete(BuildContext context) async {
+    // Grab these before the await, context shouldn't be used after it
     final vm = context.read<TransactionsViewModel>();
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
@@ -48,6 +49,7 @@ class TransactionDetailsScreen extends StatelessWidget {
       return;
     }
 
+    // Close first, delete() updates the list right away
     navigator.pop();
     final deleted = await vm.delete(transactionId);
     if (!deleted) {
@@ -60,6 +62,7 @@ class TransactionDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<TransactionsViewModel>();
+    // Can be null if it was deleted in the meantime
     final transaction = vm.transactionById(transactionId);
 
     return Scaffold(

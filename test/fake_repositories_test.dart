@@ -8,6 +8,7 @@ import 'package:manager/domain/exceptions.dart';
 import 'support/stub_repositories.dart';
 
 void main() {
+  // Delay is zero everywhere so the tests stay fast
   test('failureRate 1.0 always fails', () async {
     final repository = FakeTransactionRepository(
       delay: Duration.zero,
@@ -29,6 +30,7 @@ void main() {
       (sum, t) => sum + t.signedAmount,
     );
 
+    // closeTo because of double rounding
     expect(balance, closeTo(5240.50, 0.001));
   });
 

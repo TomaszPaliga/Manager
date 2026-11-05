@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../support/stub_repositories.dart';
 
+// Opens the form from another screen so pop() has somewhere to go back to
 Future<void> openForm(WidgetTester tester, TransactionsViewModel vm) async {
   await tester.pumpWidget(
     ChangeNotifierProvider.value(
@@ -29,6 +30,7 @@ Future<void> openForm(WidgetTester tester, TransactionsViewModel vm) async {
 }
 
 Future<void> tapSave(WidgetTester tester) async {
+  // Save can be off screen on the small test window
   await tester.ensureVisible(find.text('Save'));
   await tester.pumpAndSettle();
   await tester.tap(find.text('Save'));

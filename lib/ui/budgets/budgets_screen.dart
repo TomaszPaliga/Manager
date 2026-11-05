@@ -12,8 +12,8 @@ import '../core/widgets/loading_view.dart';
 import '../transactions/transactions_view_model.dart';
 import 'budgets_view_model.dart';
 
-/// Limits come from [BudgetsViewModel], spending from the shared
-/// [TransactionsViewModel], so a new expense moves the bars right away.
+// Limits come from BudgetsViewModel and spending from TransactionsViewModel,
+// so a new expense moves the bars right away
 class BudgetsScreen extends StatelessWidget {
   const BudgetsScreen({super.key});
 
@@ -24,6 +24,7 @@ class BudgetsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Budgets')),
+      // Needs both loaded, errors go first so Retry is always reachable
       body: switch ((budgetsVm.state, transactionsVm.state)) {
         (BudgetsError(:final message), _) => ErrorView(
           message: message,
@@ -68,6 +69,7 @@ class _BudgetCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final isOver = spent > budget.limit;
+    // min so the bar stops at 100% when you're over the limit
     final progress = budget.limit > 0 ? min(spent / budget.limit, 1.0) : 1.0;
 
     return Card(

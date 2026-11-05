@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Error message with a Retry button, used on every screen that loads data
 class ErrorView extends StatelessWidget {
   const ErrorView({super.key, required this.message, required this.onRetry});
 

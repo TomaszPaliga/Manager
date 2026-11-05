@@ -52,6 +52,7 @@ void main() {
     expect(find.text('Wrong username or password.'), findsOneWidget);
   });
 
+  // Whole app here, not just the login screen
   testWidgets('logging in opens the dashboard', (tester) async {
     await tester.pumpWidget(
       MultiProvider(

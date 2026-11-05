@@ -15,6 +15,7 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // watch rebuilds this screen when the view model changes
     final vm = context.watch<TransactionsViewModel>();
 
     return Scaffold(
@@ -24,6 +25,7 @@ class DashboardScreen extends StatelessWidget {
           IconButton(
             tooltip: 'Log out',
             icon: const Icon(Icons.logout),
+            // read, not watch, because this is a callback
             onPressed: () => context.read<AuthViewModel>().logout(),
           ),
         ],
@@ -55,6 +57,7 @@ class _DashboardContent extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
+        // 1. Total Balance Section
         const Text(
           'Total Balance',
           textAlign: TextAlign.center,
@@ -66,6 +69,7 @@ class _DashboardContent extends StatelessWidget {
           style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 16),
+        // 2. Income and expenses side by side
         Row(
           children: [
             Expanded(
@@ -86,11 +90,13 @@ class _DashboardContent extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 24),
+        // 3. Recent Transactions
         const Text(
           'Recent Transactions',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
+        // Only the last 5, the rest is on the Transactions tab
         for (final transaction in vm.recent())
           TransactionTile(
             transaction: transaction,

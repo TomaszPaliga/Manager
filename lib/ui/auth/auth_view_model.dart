@@ -4,6 +4,7 @@ import '../../data/repositories/auth_repository.dart';
 import '../../domain/exceptions.dart';
 import '../../domain/models/app_user.dart';
 
+// Sealed so the compiler checks that every switch handles all the states
 sealed class AuthState {
   const AuthState();
 }
@@ -34,6 +35,7 @@ class AuthViewModel extends ChangeNotifier {
   final AuthRepository _repository;
 
   AuthState _state = const AuthLoggedOut();
+  // A request can finish after the view model is gone, see _setState
   bool _disposed = false;
 
   AuthState get state => _state;
@@ -54,7 +56,7 @@ class AuthViewModel extends ChangeNotifier {
     try {
       await _repository.logout();
     } catch (_) {
-      // The local session ends even when the server cannot be reached.
+      // Log out locally even if the server can't be reached
     }
     _setState(const AuthLoggedOut());
   }

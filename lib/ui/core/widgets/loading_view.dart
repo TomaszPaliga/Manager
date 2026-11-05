@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Full screen spinner
 class LoadingView extends StatelessWidget {
   const LoadingView({super.key});
 
